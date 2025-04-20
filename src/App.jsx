@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
 import ProductFilters from "@/components/layout/ProductFilters"
 import ProductCard from "@/components/layout/ProductCard"
 import CheckoutDialog from "@/components/layout/CheckoutDialog"
+import { getProducts } from "@/api/getProducts";
 
 export default function App() {
   const [cart, setCart] = useState([])
@@ -13,6 +14,12 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("all")
   const [sortOption, setSortOption] = useState("featured")
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+
+  useEffect(() => {
+    getProducts().then(data => {
+      console.log("Fetched products:", data);
+    });
+  }, []);
 
   const products = [
     {
