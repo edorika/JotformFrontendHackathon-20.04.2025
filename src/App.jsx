@@ -14,81 +14,33 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("all")
   const [sortOption, setSortOption] = useState("featured")
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [products, setProducts] = useState([]);
+  const [allCategories, setAllCategories] = useState(["all"]);
 
   useEffect(() => {
-    getProducts().then(data => {
-      console.log("Fetched products:", data);
+    getProducts().then((data) => {
+      const rawProducts = data.content.products;
+  
+      const parsedProducts = rawProducts.map((p, index) => ({
+        id: p.pid ?? index,
+        name: p.name,
+        price: parseFloat(p.price) || 0,
+        description: p.description || "No description provided.",
+        categories: JSON.parse(p.connectedCategories || "[]"),
+        image: (JSON.parse(p.images || "[]")[0]) || "https://placehold.co/300x300"
+      }));
+  
+      setProducts(parsedProducts);
+  
+      const categorySet = new Set();
+      parsedProducts.forEach(p => p.categories.forEach(c => categorySet.add(c)));
+  
+      setAllCategories(["all", ...Array.from(categorySet)]);
     });
   }, []);
 
-  const products = [
-    {
-      id: 1,
-      name: "Minimalist Watch",
-      price: 149.99,
-      description: "Elegant minimalist watch with leather strap. Perfect for any occasion.",
-      category: "accessories",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 2,
-      name: "Wireless Earbuds",
-      price: 89.99,
-      description: "High-quality wireless earbuds with noise cancellation and long battery life.",
-      category: "electronics",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 3,
-      name: "Cotton T-Shirt",
-      price: 29.99,
-      description: "Soft and comfortable cotton t-shirt, available in multiple colors.",
-      category: "clothing",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 4,
-      name: "Ceramic Mug",
-      price: 19.99,
-      description: "Handcrafted ceramic mug, perfect for your morning coffee or tea.",
-      category: "home",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 5,
-      name: "Leather Wallet",
-      price: 59.99,
-      description: "Genuine leather wallet with multiple card slots and coin pocket.",
-      category: "accessories",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 6,
-      name: "Notebook Set",
-      price: 24.99,
-      description: "Set of 3 premium notebooks with different paper types.",
-      category: "stationery",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 7,
-      name: "Scented Candle",
-      price: 34.99,
-      description: "Long-lasting scented candle made with natural ingredients.",
-      category: "home",
-      image: "https://placehold.co/300x300",
-    },
-    {
-      id: 8,
-      name: "Bluetooth Speaker",
-      price: 79.99,
-      description: "Portable Bluetooth speaker with 20 hours of battery life.",
-      category: "electronics",
-      image: "https://placehold.co/300x300",
-    },
-  ]
-
-  const categories = ["all", ...new Set(products.map((p) => p.category))]
+  
+  const categories = allCategories;
 
   const filtered = products.filter((p) => {
     const matchCategory = activeCategory === "all" || p.category === activeCategory
