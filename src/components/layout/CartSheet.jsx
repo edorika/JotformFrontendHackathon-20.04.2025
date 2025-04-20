@@ -32,7 +32,7 @@ export default function CartSheet({ cart, removeFromCart, updateQuantity, cartTo
                   <img src={item.image} alt={item.name} className="w-20 h-20 rounded-md object-cover" />
                   <div className="flex-1">
                     <h3 className="font-medium">{item.name}</h3>
-                    <p className="text-sm text-muted-foreground">${item.price.toFixed(2)}</p>
+                    <p className="text-sm text-muted-foreground">${(parseFloat(item.price) || 0).toFixed(2)}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
                         <Minus className="h-3 w-3" />
@@ -52,7 +52,7 @@ export default function CartSheet({ cart, removeFromCart, updateQuantity, cartTo
             <div className="border-t pt-4">
               <div className="flex justify-between mb-4">
                 <span className="font-medium">Total</span>
-                <span className="font-bold">${cartTotal.toFixed(2)}</span>
+                <span className="font-bold">${(parseFloat(cartTotal) || 0).toFixed(2)}</span>
               </div>
               <Button className="w-full" onClick={() => setIsCheckoutOpen(true)}>
                 Checkout

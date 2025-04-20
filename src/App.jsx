@@ -61,14 +61,18 @@ export default function App() {
     }
   })
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id)
+      const existing = prev.find((item) => item.id === product.id);
       return existing
-        ? prev.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item)
-        : [...prev, { ...product, quantity: 1 }]
-    })
-  }
+        ? prev.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
+          )
+        : [...prev, { ...product, quantity }];
+    });
+  };
 
   const removeFromCart = (productId) => {
     setCart((prev) => prev.filter((item) => item.id !== productId))
@@ -81,9 +85,13 @@ export default function App() {
 
   const cartTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
 
+  useEffect(() => {
+    console.log("🛒 Cart Total Updated:", cartTotal.toFixed(2));
+  }, [cartTotal]);
+
   return (
     <main className="min-h-screen bg-gray-50">
-      <Header cart={cart} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <Header cart={cart} cartTotal={cartTotal} searchQuery={searchQuery} setSearchQuery={setSearchQuery} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />
       
       <section className="bg-gradient-to-r from-gray-100 to-gray-200 py-16 text-center">
         <h2 className="text-4xl font-bold mb-4">Welcome to ShopSmart</h2>
