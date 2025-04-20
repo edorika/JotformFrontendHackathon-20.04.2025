@@ -3,13 +3,38 @@
 ## User Information
 Please fill in your information after forking this repository:
 
-- **Name**: [Your Name]
+- **Name**: [Erdem Aydın]
 
 ## Project Description
-[Add a brief description of your project here]
+[This is a basic e-commerce platform]
 
-## Getting Started
-[Add instructions for setting up and running the project]
+## 🚀 Getting Started
+
+Follow these steps to set up and run the project locally:
+
+### 1. 📦 Clone or Fork the Repository
+
+Fork the repo from GitHub and clone your forked version:
+
+```bash
+git clone https://github.com/<your-username>/JotformFrontendHackathon-20.04.2025.git
+cd JotformFrontendHackathon-20.04.2025
+```
+
+Make sure you have Yarn installed. Then, install the required packages:
+
+```bash
+yarn install
+```
+
+To run the development server locally:
+```bash
+yarn dev
+```
+
+Open http://localhost:5173 in your browser to view the app.
+
+
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
